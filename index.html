@@ -1,1 +1,31 @@
-<html></html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Display a map on a webpage</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiaWJyYWhpbTc1NSIsImEiOiJjbHdsN3h3a20xbG96MmpxcmdrNnpvaHJhIn0.6HMcMq-oCd4yae2gh-ynvA';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        center: [-95.363560,29.754691], // starting position [lng, lat]
+        zoom: 9 // starting zoom
+    });
+
+    map.on('load', () => {
+        console.log("loaded up")
+    });
+
+</script>
+
+</body>
+</html>
