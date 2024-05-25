@@ -7,16 +7,28 @@
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
 <style>
+     @font-face {
+  font-family: 'nyt-franklin';
+  src: url("fonts/franklin-italic-300.fb6b1cd2191b4a3104e3c6b15ce6f294.woff2") format('woff2'),
+       url("fonts/franklin-italic-300.48a5e4779dc70097e8f97e08332d1bad.woff") format('woff'),
+       url("fonts/franklin-italic-300.8fede15c30e43cbc1a20bfa59c045fec.ttf") format('truetype');
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+}
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+.popupp{font-family: nyt-franklin;}
 </style>
 </head>
 <body>
 <div id="map"></div>
 <style>
+   
     .mapboxgl-popup-tip {
             display: none;
         }
+
 </style>
 <script>
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaWJyYWhpbTc1NSIsImEiOiJjbHdsN3h3a20xbG96MmpxcmdrNnpvaHJhIn0.6HMcMq-oCd4yae2gh-ynvA';
@@ -70,11 +82,11 @@ body { margin: 0; padding: 0; }
             const selectedState = map.queryRenderedFeatures(e.point, {
                 layers: ['states-fill']
             });
-            // console.log(selectedState);
+            // console.log(selectedState); nyt-franklin
 
             // Populate the popup and set its coordinates
             // based on the feature found.
-            popup.setLngLat(coordinates).setHTML(selectedState[0].properties.NAME+'<br>'+selectedState[0].properties.senators).addTo(map);
+            popup.setLngLat(coordinates).setHTML(`<p class="popupp"> ${selectedState[0].properties.NAME}  <br> ${selectedState[0].properties.senators} </p>`).addTo(map);
         });
 
         map.on('mousemove', 'states-fill', (e) => {
