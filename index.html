@@ -13,6 +13,11 @@ body { margin: 0; padding: 0; }
 </head>
 <body>
 <div id="map"></div>
+<style>
+    .mapboxgl-popup-tip {
+            display: none;
+        }
+</style>
 <script>
 	mapboxgl.accessToken = 'pk.eyJ1IjoiaWJyYWhpbTc1NSIsImEiOiJjbHdsN3h3a20xbG96MmpxcmdrNnpvaHJhIn0.6HMcMq-oCd4yae2gh-ynvA';
     const map = new mapboxgl.Map({
@@ -86,8 +91,8 @@ body { margin: 0; padding: 0; }
     data: "states.geojson"
     })
 
-    map.addLayer({
-            'id': 'urban-areas-fill',
+        map.addLayer({
+            'id': 'states-fill',
             'type': 'fill',
             'source': 'states',
             'paint': {
@@ -96,16 +101,60 @@ body { margin: 0; padding: 0; }
             }
         });
 
+        const popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
+        });
+
+
+        map.on('mouseenter', 'states-fill', (e) => {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+
+            // Copy coordinates array.
+            const coordinates = e.lngLat;
+            // e.features[0].geometry.coordinates.slice();
+            console.log(coordinates);
+            const description = e.features[0].properties.NAME;
+            console.log(description);
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            // }
+
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup.setLngLat(coordinates).setHTML(description).addTo(map);
+        });
+
+        map.on('mousemove', (e) => {
+    const coordinates = e.lngLat;
+
+    const selectedState = map.queryRenderedFeatures(e.point, {
+                layers: ['states-fill']
+            });
+           
+    // Set the popup's coordinates based on the mouse event's coordinates
+    popup
+        .setLngLat(coordinates)
+        .setHTML(selectedState[0].properties.NAME+selectedState[0].properties.CENSUSAREA)
+        // (`Longitude: ${coordinates.lng}<br>Latitude: ${coordinates.lat}`)
+        .addTo(map);
+});
+
+        map.on('mouseleave', 'states', () => {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
 
 
         console.log("loaded up")
         // adding the state GeoJSON
-states.forEach((element) => {
-
-  
-
-
-})
+        // states.forEach((element) => {
+        // })
     });
 
 </script>
