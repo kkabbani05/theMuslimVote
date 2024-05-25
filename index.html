@@ -23,8 +23,9 @@ body { margin: 0; padding: 0; }
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/ibrahim755/clwlbag7g03av01ql8grbfykf',
-        center: [-95.363560,29.754691], // starting position [lng, lat]
-        zoom: 9 // starting zoom
+        center: [-98.679199,40.128491], // starting position [lng, lat]
+        zoom: 4, // starting zoom
+        projection: 'mercator'
     });
 
     //defining the 50 states
@@ -103,7 +104,9 @@ body { margin: 0; padding: 0; }
 
         const popup = new mapboxgl.Popup({
             closeButton: false,
-            closeOnClick: false
+            closeOnClick: false,
+            offset: 20
+
         });
 
 
@@ -115,37 +118,38 @@ body { margin: 0; padding: 0; }
             const coordinates = e.lngLat;
             // e.features[0].geometry.coordinates.slice();
             console.log(coordinates);
-            const description = e.features[0].properties.NAME;
-            console.log(description);
+            // const description = e.features[0].properties.NAME;
+            // console.log(description);
 
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-            // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            // }
+            const selectedState = map.queryRenderedFeatures(e.point, {
+                layers: ['states-fill']
+            });
+            // console.log(selectedState);
 
             // Populate the popup and set its coordinates
             // based on the feature found.
-            popup.setLngLat(coordinates).setHTML(description).addTo(map);
+            popup.setLngLat(coordinates).setHTML(selectedState[0].properties.NAME+selectedState[0].properties.CENSUSARE).addTo(map);
         });
 
-        map.on('mousemove', (e) => {
+        map.on('mousemove', 'states-fill', (e) => {
     const coordinates = e.lngLat;
 
+   
     const selectedState = map.queryRenderedFeatures(e.point, {
                 layers: ['states-fill']
             });
+    //         console.log(selectedState);
            
     // Set the popup's coordinates based on the mouse event's coordinates
     popup
         .setLngLat(coordinates)
         .setHTML(selectedState[0].properties.NAME+selectedState[0].properties.CENSUSAREA)
-        // (`Longitude: ${coordinates.lng}<br>Latitude: ${coordinates.lat}`)
-        .addTo(map);
+        // // (`Longitude: ${coordinates.lng}<br>Latitude: ${coordinates.lat}`)
+        // .addTo(map);
 });
 
-        map.on('mouseleave', 'states', () => {
+
+        map.on('mouseleave', 'states-fill', () => {
             map.getCanvas().style.cursor = '';
             popup.remove();
         });
