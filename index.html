@@ -10,6 +10,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+
 <style>
     @font-face { 
   font-family:'nyt-franklin';
@@ -301,7 +303,8 @@ font-display:swap;
     // data: "states.geojson"
     // data: "states_with_senators.geojson"
     // data: "updated_geojson_file.geojson"
-    data: "states_with_swing_state.geojson"
+    data: "states_with_swing_state.geojson",
+    'promoteId':'GEO_ID'
     })
 
         map.addLayer({
@@ -316,9 +319,15 @@ font-display:swap;
             0, 'rgba(255, 255, 255, 1)',  // White color for 0% Muslim population
             3.6, 'rgba(0, 160, 0, 1)'        // Black color for 3.6% Muslim population
         ],
-        'fill-opacity': 0.4
+        'fill-opacity':  [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.8,
+                    0.4
+                ]
+
     }
-        });
+        },'bridge-case-simple');
         map.addLayer({
             'id': 'states-outline',
             'type': 'line',
@@ -337,7 +346,25 @@ font-display:swap;
         //     offset: 20
 
         // });
+        map.on('click', 'states-fill', (e) => {
+                // Get the clicked feature
+                const feature = e.features[0];
 
+                if (feature) {
+                    // Get the bounding box of the feature
+                    const bbox = turf.bbox(feature);
+
+                    // Zoom the map to fit the feature
+                    map.fitBounds(bbox, {
+                        padding: {
+                            top: 100,
+                            bottom: 100,
+                            left: 500, // Double the padding on the left
+                            right: 100
+                        }
+                    });
+                }
+            });
 
         map.on('mouseenter', 'states-fill', (e) => {
             // Change the cursor style as a UI indicator.
@@ -360,14 +387,39 @@ font-display:swap;
 
 // popup.setLngLat(coordinates).setHTML(`<p class="popupp"> ${selectedState[0].properties.NAME}  <br> ${selectedState[0].properties.senators} </p>`).addTo(map);
         });
+        let hoveredPolygonId = null;
 
         map.on('mousemove', 'states-fill', (e) => {
              const coordinates = e.lngLat;
 
-   
+
              const selectedState = map.queryRenderedFeatures(e.point, {
                 layers: ['states-fill']
             });
+
+            if (e.features.length > 0) {
+                if (hoveredPolygonId !== null) {
+                    map.setFeatureState(
+                        { source: 'states', id: hoveredPolygonId },
+                        { hover: false }
+                    );
+                }
+                hoveredPolygonId = e.features[0].id;
+                map.setFeatureState(
+                    { source: 'states', id: hoveredPolygonId },
+                    { hover: true }
+                );}
+
+
+            console.log(selectedState)
+            map.setFeatureState(
+                    { source: 'states', id: selectedState[0].id },
+                    { hover: true }
+                );
+
+
+
+
             let statename=selectedState[0].properties.NAME;
 let MuslimPop=selectedState[0].properties.MuslimPopulationEstimated;
 let MuslimPercent=selectedState[0].properties.MuslimPopulationEstimatedPercMuslim;
@@ -460,6 +512,12 @@ let senatorHTML = `<hr class="mt-2 mb-2">  <div class="senator">
             map.getCanvas().style.cursor = '';
             document.getElementById('data-senator').innerHTML="";
     document.getElementById('hide-state').style.display = 'block';
+    map.setFeatureState(
+                    { source: 'states', id: hoveredPolygonId },
+                    { hover: false }
+                );
+
+
         });
 
 
