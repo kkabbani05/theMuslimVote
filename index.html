@@ -13,9 +13,9 @@
 <style>
     @font-face { 
   font-family:'nyt-franklin';
-  src:url('fonts\nyt-franklin\franklin-normal-500.0f4aea3d462cdb64748629efcbbf36bc.woff2') format('woff2'),
-       url('fonts\nyt-franklin\franklin-normal-500.cb85480c30b6ca5f53f673993211036f.woff') format('woff'),
-       url('fonts\nyt-franklin\franklin-normal-500.9061b25032eb73a747c2edf738888891.ttf') format('truetype');
+  src:url('fonts/nyt-franklin/franklin-normal-500.0f4aea3d462cdb64748629efcbbf36bc.woff2') format('woff2'),
+       url('fonts/nyt-franklin/franklin-normal-500.cb85480c30b6ca5f53f673993211036f.woff') format('woff'),
+       url('fonts/nyt-franklin/franklin-normal-500.9061b25032eb73a747c2edf738888891.ttf') format('truetype');
   font-style:normal;
   font-weight:500;
   font-display:swap;
@@ -41,7 +41,7 @@
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 .popupp{font-family: nyt-franklin;}
-.sidebar{position: absolute;top: 40px; color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);padding: 30px;border-radius: 5px;}
+.sidebar{position: absolute;top: 40px;bottom: 40px;height: calc(100% - 80px); color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);padding: 30px;border-radius: 5px;display: flex;justify-content: space-between;flex-direction: column;}
 #sidebarH{font-family: nyt-cheltenham; font-weight: 500;line-height: 30px;font-size: 30px;}
 button{display: block;}
 img{display: block;}
@@ -50,15 +50,26 @@ img{display: block;}
 </style>
 </head>
 <body>
+    
 <div id="map"></div>
 <div class="sidebar">
-    <h1 id="sidebarH" style="margin-bottom: 20px;">Congressional Scorecard</h1>
+    <div id="hide-state">
+
+        <h1 id="sidebarH" style="margin-bottom: 20px;">Congressional Scorecard</h1>
     <div id="geocoder" class="geocoder"></div>
     <!-- <div id="map"></div> -->
     <br>
-    <!-- <p>s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p> -->
-    <button type="button" class="btn btn-light swing-state-toggle">Focus Swing States</button>
-    <img class="mt-5" style="opacity: 30%;" width="30%" src="/CAIRLogo-white.png" alt="">
+    <p>This project blah blah blah </p>
+    <!-- <button type="button" class="btn btn-light swing-state-toggle">Focus Swing States</button> -->
+
+    </div>
+    
+    <div id="data-senator"></div>
+    <div class="mt-5" id="sidebar-footer"><div> <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" checked>
+        <label class="btn btn-secondary" for="option4">Senate</label>
+        <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+        <label class="btn btn-secondary" for="option5">House</label></div><img style="opacity: 30%;object-fit: contain;" width="30%" src="/CAIRLogo-white.png" alt=""></div>
+    
 </div>
 <div id="legend">
 Population % Muslim
@@ -83,6 +94,11 @@ Population % Muslim
 
 <!-- and the popup styles -->
 <style>
+    label{font-family: '';}
+    #sidebar-footer{
+        display: flex;
+        justify-content: space-between;
+    }
     .log{
         background-color: rgb(211, 211, 211);
         color: black;
@@ -96,11 +112,11 @@ Population % Muslim
         background-color: rgb(255, 187, 187);
     }
     .log.good{
-        background-color: rgba(174, 231, 190, 0.528);
+        background-color: rgb(121, 166, 134);
     }
     .info{
         font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 20px;
+        font-size: 15px;
     }
     .aler{
         background-color:rgb(255, 207, 207);
@@ -127,11 +143,13 @@ p{font-family: nyt-franklin;}
     justify-content: space-between;
     align-items: center;
     padding: 7px 0px;
+    font-family: 'nyt-cheltenham';
+    flex-direction: column;
 }
 img.profile{
-    border-radius: 25px;
-    width: 40px !important;
-    height: 40px !important;
+    border-radius: 30px;
+    width: 60px !important;
+    height: 60px !important;
     object-fit:cover;
     border: 3px solid rgb(0, 0, 0);
     
@@ -147,6 +165,8 @@ img.profile.R{
     flex-direction: row;
     gap: 20px;
     padding: 0 10px;
+    flex-direction: column;
+    align-items: center;
 }
 
 
@@ -185,7 +205,7 @@ font-display:swap;
     position: absolute;
     border-radius: 6px;
     bottom: 50px;
-    left: 50px;
+    right: 50px;
     width: 200px;
     background-color: aquamarine;
     font-family: arial,sans-serif;
@@ -254,18 +274,29 @@ font-display:swap;
             ['linear'],
             ['get', 'MuslimPopulationEstimatedPercMuslim'],
             0, 'rgba(255, 255, 255, 1)',  // White color for 0% Muslim population
-            3.6, 'rgba(0, 0, 0, 1)'        // Black color for 3.6% Muslim population
+            3.6, 'rgba(0, 255, 0, 1)'        // Black color for 3.6% Muslim population
         ],
         'fill-opacity': 0.4
     }
         });
-
-        const popup = new mapboxgl.Popup({
-            closeButton: false,
-            closeOnClick: false,
-            offset: 20
-
+        map.addLayer({
+            'id': 'states-outline',
+            'type': 'line',
+            'source': 'states',
+            'paint': {
+        'line-color': 'rgba(0, 0, 0, 1)',
+        'line-width': 1,  // Adjust line width as needed
+        'line-opacity': 0.1  // Adjust line opacity as needed
+    }
         });
+
+
+        // const popup = new mapboxgl.Popup({
+        //     closeButton: false,
+        //     closeOnClick: false,
+        //     offset: 20
+
+        // });
 
 
         map.on('mouseenter', 'states-fill', (e) => {
@@ -275,7 +306,7 @@ font-display:swap;
             // Copy coordinates array.
             const coordinates = e.lngLat;
             // e.features[0].geometry.coordinates.slice();
-            console.log(coordinates);
+            // console.log(coordinates);
             // const description = e.features[0].properties.NAME;
             // console.log(description);
 
@@ -287,7 +318,7 @@ font-display:swap;
             // Populate the popup and set its coordinates
             // based on the feature found.
 
-popup.setLngLat(coordinates).setHTML(`<p class="popupp"> ${selectedState[0].properties.NAME}  <br> ${selectedState[0].properties.senators} </p>`).addTo(map);
+// popup.setLngLat(coordinates).setHTML(`<p class="popupp"> ${selectedState[0].properties.NAME}  <br> ${selectedState[0].properties.senators} </p>`).addTo(map);
         });
 
         map.on('mousemove', 'states-fill', (e) => {
@@ -299,16 +330,17 @@ popup.setLngLat(coordinates).setHTML(`<p class="popupp"> ${selectedState[0].prop
             });
 
 //set the vars
+{
 let statename=selectedState[0].properties.NAME;
 let MuslimPop=selectedState[0].properties.MuslimPopulationEstimated;
 let MuslimPercent=selectedState[0].properties.MuslimPopulationEstimatedPercMuslim;
 let senators = JSON.parse(selectedState[0].properties.senators);
-console.log(senators);
+// console.log(senators);
 // let senator1photo=senators[0].
 let senator1html = `<hr class="mt-2 mb-2">
         <div class="senator">
             <img src="https:${senators[0].Headshot}" class="profile ${senators[0]['Party ']}">
-            <div class="senatorinfo" style="width: calc(100% - 50px);">
+            <div class="senatorinfo" style="width: 100%;">
                 <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>${senators[0]['First Name']} ${senators[0]['Last Name']}</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
                 `;
                 if(senators[0]["S.3168"]!==""){
@@ -353,36 +385,39 @@ let senator1html = `<hr class="mt-2 mb-2">
                 
                 // <div class="log good"><i>note</i></div>
                 senator1html += `</div></div>`;
-let senator2html = `<hr class="mt-2 mb-2">
-        <div class="senator">
-            <img src="https:${senators[1].Headshot}" class="profile">
-            <div class="senatorinfo" style="width: calc(100% - 50px);">
-                <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>${senators[1]['First Name']} ${senators[1]['Last Name']}</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
-                <div class="log good"><i>note</i></div>
-            </div>
-        </div>`
+          
+      
+                // <div class="log good"><i>note</i></div>
 
-let HTML = `<div class="mapboxgl-popupy">
+                let HTML = `<div class="mapboxgl-popupy">
         <div class="title"><h1 class="mb-0">${statename}</h1>
             <div class="info">
-                <p class="mb-0">Muslim Pop: ${MuslimPop}</p>
-                <p class="mb-0">Muslim Percent: ${MuslimPercent}%</p>
-            </div>
-            </div>`+senator1html+senator2html+`</div></div>`
-            console.log(selectedState[0].properties); 
+                <p class="mb-0">Muslim Pop: ${MuslimPop}  |  Muslim Percent: ${MuslimPercent}%</p></div>
+               
+            
+            </div>`+senator1html+`</div></div>`
+            // console.log(selectedState[0].properties); 
+            
+
+
+
+           
         //    console.log(JSON.parse(selectedState[0].properties.senators));
     // Set the popup's coordinates based on the mouse event's coordinates
-    popup
-        .setLngLat(coordinates)
-        .setHTML(HTML)
+    // popup
+        // .setLngLat(coordinates)
+        // .setHTML(HTML);
+
+    document.getElementById('data-senator').innerHTML=HTML;
+    document.getElementById('hide-state').style.display = 'none';
         // // (`Longitude: ${coordinates.lng}<br>Latitude: ${coordinates.lat}`)
-        // .addTo(map);
-});
+        // .addTo(map);}
+    }});
 
 
         map.on('mouseleave', 'states-fill', () => {
             map.getCanvas().style.cursor = '';
-            popup.remove();
+            // popup.remove();
         });
 
 
@@ -393,17 +428,17 @@ let HTML = `<div class="mapboxgl-popupy">
     });
 var swingStates = ['Arizona','Georgia','Michigan','Nevada','North Carolina','Pennsilvania','Wisconsin'];
 
-document.getElementsByClassName('swing-state-toggle')[0].addEventListener('click',(e)=>{
+// document.getElementsByClassName('swing-state-toggle')[0].addEventListener('click',(e)=>{
     
-    if (document.getElementsByClassName('swing-state-toggle')[0].innerText === "Focus Swing States") {
-    document.getElementsByClassName('swing-state-toggle')[0].innerText = "All States";
-    map.setFilter('states-fill', ['==', 'SwingState', true]);
+//     if (document.getElementsByClassName('swing-state-toggle')[0].innerText === "Focus Swing States") {
+//     document.getElementsByClassName('swing-state-toggle')[0].innerText = "All States";
+//     map.setFilter('states-fill', ['==', 'SwingState', true]);
 
-} else {
-    document.getElementsByClassName('swing-state-toggle')[0].innerText = "Focus Swing States";
-    map.setFilter('states-fill', null);
-}
-})
+// } else {
+//     document.getElementsByClassName('swing-state-toggle')[0].innerText = "Focus Swing States";
+//     map.setFilter('states-fill', null);
+// }
+// })
 
 document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0].setAttribute('placeholder',"Search a place")
 </script>
