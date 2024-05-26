@@ -87,10 +87,10 @@ Population % Muslim
         background-color: rgb(211, 211, 211);
         color: black;
         width: 100%;
-        padding: 0px 7px;
+        padding: 2px 7px 0px;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
-        
+        border-bottom: 2px solid #00000012;
     }
     .log.bad{
         background-color: rgb(255, 187, 187);
@@ -99,7 +99,8 @@ Population % Muslim
         background-color: rgba(174, 231, 190, 0.528);
     }
     .info{
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 20px;
     }
     .aler{
         background-color:rgb(255, 207, 207);
@@ -112,7 +113,7 @@ Population % Muslim
         color: rgb(0, 138, 16);
     }
 .mapboxgl-popup-content{
-    width: 300px;
+    width: 400px;
     padding: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.244);
     border-radius: 5px;
@@ -120,7 +121,6 @@ Population % Muslim
 }
 /* h1{margin-block-end: 0;} */
 p{font-family: nyt-franklin;}
-body{padding: 10px;}
 .title{
     display: flex;
     gap:10px;
@@ -137,7 +137,7 @@ img.profile{
     
 }
 img.profile.D{
-    border: 3px solid rgb(39, 68, 157);
+    border: 3px solid rgb(47, 80, 177);
 }
 img.profile.R{
     border: 3px solid rgb(191, 48, 48);
@@ -171,16 +171,6 @@ font-display:swap;
 </style>
 
 
-
-
-
-
-
-
-
-
-
-
 <style>
 .barl{
     position: absolute;
@@ -211,7 +201,9 @@ font-display:swap;
             display: none;
         }
         #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-
+.top-line-senator-info{
+    font-size: 18px;
+}
 
 </style>
 <script>
@@ -315,12 +307,52 @@ console.log(senators);
 // let senator1photo=senators[0].
 let senator1html = `<hr class="mt-2 mb-2">
         <div class="senator">
-            <img src="https:${senators[0].Headshot}" class="profile">
+            <img src="https:${senators[0].Headshot}" class="profile ${senators[0]['Party ']}">
             <div class="senatorinfo" style="width: calc(100% - 50px);">
                 <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>${senators[0]['First Name']} ${senators[0]['Last Name']}</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
-                <div class="log good"><i>note</i></div>
-            </div>
-        </div>`
+                `;
+                if(senators[0]["S.3168"]!==""){
+                    senator1html += `<div class="log good"><i>Sponsored S.3168 to provide Israel $14.3 billion towards genocide</i></div>`;
+                };
+                if(senators[0]["S.Res.504"]=="Y"){
+                    senator1html += `<div class="log good"><i>Voted YES to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                }else if(senators[0]["S.Res.504"]=="N"){
+                    senator1html += `<div class="log bad"><i>Voted NO to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                }else{
+                    senator1html += `<div class="log bad"><i>Voted N/A to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                };
+
+                if(senators[0]["S.4091"]!==""){
+                    senator1html += `<div class="log bad"><i>Sponsored S.4091 to adopt the IHRA definition of antisemitism</i></div>`;
+                };
+                if(senators[0]["S.4127"]!==""){
+                    senator1html += `<div class="log bad"><i>Sponsored S.4127 for Department of Education to adopt the IHRA definition of antisemitism</i></div>`;
+                };
+                if(senators[0]["S. 1916"]!==""){
+                    senator1html += `<div class="log good"><i>Sponsored S.1916 to create Office to Monitor and Combat Islamophobia</i></div>`;
+                };
+                if(senators[0]["S. 2327"]!==""){
+                    senator1html += `<div class="log good"><i>Sponsored S.2327 to support Afganis who supported US mission in Afganistan</i></div>`;
+                };
+                if(senators[0]["S. Res. 534"]!==""){
+                    senator1html += `<div class="log good"><i>Sponsored S.534 to support January as Muslim American Heritage Month</i></div>`;
+                };
+                
+                if(senators[0]["Letter A"]!==""){
+                    senator1html += `<div class="log good"><i>Signed a letter for protection of palestinian life</i></div>`;
+                };
+                if(senators[0]["Letter B"]!==""){
+                    senator1html += `<div class="log good"><i>Signed a letter affirming US Diplomacy in humanitarian aid</i></div>`;
+                };
+                if(senators[0]["Letter C"]!==""){
+                    senator1html += `<div class="log good"><i>Signed a letter calling for oversight of U.S. origin weapons</i></div>`;
+                };
+                if(senators[0]["Letter D"]!==""){
+                    senator1html += `<div class="log good"><i>Signed a letter urging banks to stop discrimination against muslims</i></div>`;
+                };
+                
+                // <div class="log good"><i>note</i></div>
+                senator1html += `</div></div>`;
 let senator2html = `<hr class="mt-2 mb-2">
         <div class="senator">
             <img src="https:${senators[1].Headshot}" class="profile">
