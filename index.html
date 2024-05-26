@@ -41,7 +41,9 @@
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 .popupp{font-family: nyt-franklin;}
-.sidebar{position: absolute;top: 40px;bottom: 40px;height: calc(100% - 80px); color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);padding: 30px;border-radius: 5px;display: flex;justify-content: space-between;flex-direction: column;}
+.sidebar{position: absolute;top: 40px;bottom: 40px;height: calc(100% - 80px); color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);
+    padding: 30px;
+    border-radius: 5px;display: flex;justify-content: space-between;flex-direction: column;}
 #sidebarH{font-family: nyt-cheltenham; font-weight: 500;line-height: 30px;font-size: 30px;}
 button{display: block;}
 img{display: block;}
@@ -65,23 +67,27 @@ img{display: block;}
     </div>
     
     <div id="data-senator"></div>
-    <div class="mt-5" id="sidebar-footer"><div> <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" checked>
-        <label class="btn btn-secondary" for="option4">Senate</label>
-        <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
-        <label class="btn btn-secondary" for="option5">House</label></div><img style="opacity: 30%;object-fit: contain;" width="30%" src="/CAIRLogo-white.png" alt=""></div>
+    <div>
+            <hr>
+        <div class="mt-2" id="sidebar-footer"><div> <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" checked>
+            <label class="btn btn-secondary" for="option4">Senate</label>
+            <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+            <label class="btn btn-secondary" for="option5">House</label></div><img style="opacity: 30%;object-fit: contain;" width="30%" src="/CAIRLogo-white.png" alt=""></div>
+        
+    </div>
     
 </div>
 <div id="legend">
 Population % Muslim
 <div id="bars">
     <div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(255, 255, 255, 0.4);">
-    </div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(218, 218, 218, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(182, 182, 182, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(145, 145, 145, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(109, 109, 109, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(73, 73, 73, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(36, 36, 36, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(0, 0, 0, 0.4);">
+    </div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(218, 236, 218, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(182, 218, 182, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(145, 199, 145, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(109, 181, 109, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(73, 163, 73, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(36, 145, 36, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(0, 127, 0, 0.4);">
 </div></div>
 <div class="bar-labels" style="position: relative;letter-spacing: 0;">
     <div class="barl" style="left:calc(6.25% - 2px);">0</div>
@@ -103,16 +109,38 @@ Population % Muslim
         background-color: rgb(211, 211, 211);
         color: black;
         width: 100%;
-        padding: 2px 7px 0px;
+        padding: 6px 7px;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
         border-bottom: 2px solid #00000012;
+        line-height: normal;
     }
     .log.bad{
         background-color: rgb(255, 187, 187);
+        position: relative;
+        padding-left: 30px;
     }
     .log.good{
-        background-color: rgb(121, 166, 134);
+        background-color: rgb(170, 218, 184);
+        position: relative;
+        padding-left: 30px;
+    }
+    .log.bad::before{
+        content: url('/X.svg'); /* Path to your SVG file */
+        position: absolute;
+        top: calc(50% - 7px);
+        left: 10px;
+        width: 15px; /* Adjust width as needed */
+        height: 15px; /* Adjust height as needed */
+    }
+    .log.good::before{
+        content: url('/CHECK.svg'); /* Path to your SVG file */
+        position: absolute;
+        top: calc(50% - 7px);
+        left: 10px;
+        width: 15px; /* Adjust width as needed */
+        height: 15px; /* Adjust height as needed */
+        
     }
     .info{
         font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -162,12 +190,17 @@ img.profile.R{
 }
 .senator{
     display: flex;
-    flex-direction: row;
-    gap: 20px;
+    gap: 10px;
     padding: 0 10px;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    background-color: rgb(207, 207, 207);
+    color: black;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
+
 
 
 @font-face {
@@ -220,9 +253,16 @@ font-display:swap;
     .mapboxgl-popup-tip {
             display: none;
         }
+
+        .log:last-child {
+    border-bottom-left-radius: 10px; /* Adjust the radius as needed */
+    border-bottom-right-radius: 10px; /* Adjust the radius as needed */
+}
         #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 .top-line-senator-info{
-    font-size: 18px;
+    font-size: 18px;width:100%;
+    /* display: flex;
+    justify-content: space-between; */
 }
 
 </style>
@@ -274,7 +314,7 @@ font-display:swap;
             ['linear'],
             ['get', 'MuslimPopulationEstimatedPercMuslim'],
             0, 'rgba(255, 255, 255, 1)',  // White color for 0% Muslim population
-            3.6, 'rgba(0, 255, 0, 1)'        // Black color for 3.6% Muslim population
+            3.6, 'rgba(0, 160, 0, 1)'        // Black color for 3.6% Muslim population
         ],
         'fill-opacity': 0.4
     }
@@ -328,74 +368,73 @@ font-display:swap;
              const selectedState = map.queryRenderedFeatures(e.point, {
                 layers: ['states-fill']
             });
-
-//set the vars
-{
-let statename=selectedState[0].properties.NAME;
+            let statename=selectedState[0].properties.NAME;
 let MuslimPop=selectedState[0].properties.MuslimPopulationEstimated;
 let MuslimPercent=selectedState[0].properties.MuslimPopulationEstimatedPercMuslim;
 let senators = JSON.parse(selectedState[0].properties.senators);
 // console.log(senators);
 // let senator1photo=senators[0].
-let senator1html = `<hr class="mt-2 mb-2">
-        <div class="senator">
-            <img src="https:${senators[0].Headshot}" class="profile ${senators[0]['Party ']}">
-            <div class="senatorinfo" style="width: 100%;">
-                <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>${senators[0]['First Name']} ${senators[0]['Last Name']}</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
-                `;
-                if(senators[0]["S.3168"]!==""){
-                    senator1html += `<div class="log good"><i>Sponsored S.3168 to provide Israel $14.3 billion towards genocide</i></div>`;
+//set the vars
+function senatorToHTML(senator){
+let senatorHTML = `<hr class="mt-2 mb-2">  <div class="senator">
+            <img src="https:${senator.Headshot}" class="profile ${senator['Party ']}">
+            <div class="senatorinfo" style="width: calc(100% - 70px);">
+                <div class="top-line-senator-info mb-1"
+                ><p class="mb-0" style="line-height: 30px;"><b>${senator['First Name']} ${senator['Last Name']}</b> (${senator['District']}) </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
+            </div></div><div>`;
+                if(senator["S.3168"]!==""){
+                    senatorHTML += `<div class="log good"><i>Sponsored S.3168 to provide Israel $14.3 billion towards genocide</i></div>`;
                 };
-                if(senators[0]["S.Res.504"]=="Y"){
-                    senator1html += `<div class="log good"><i>Voted YES to investigate Israel human rights practices (S.Res.504)</i></div>`;
-                }else if(senators[0]["S.Res.504"]=="N"){
-                    senator1html += `<div class="log bad"><i>Voted NO to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                if(senator["S.Res.504"]=="Y"){
+                    senatorHTML += `<div class="log good"><i>Voted YES to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                }else if(senator["S.Res.504"]=="N"){
+                    senatorHTML += `<div class="log bad"><i>Voted NO to investigate Israel human rights practices (S.Res.504)</i></div>`;
                 }else{
-                    senator1html += `<div class="log bad"><i>Voted N/A to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                    senatorHTML += `<div class="log bad"><i>Voted N/A to investigate Israel human rights practices (S.Res.504)</i></div>`;
                 };
 
-                if(senators[0]["S.4091"]!==""){
-                    senator1html += `<div class="log bad"><i>Sponsored S.4091 to adopt the IHRA definition of antisemitism</i></div>`;
+                if(senator["S.4091"]!==""){
+                    senatorHTML += `<div class="log bad"><i>Sponsored S.4091 to adopt the IHRA definition of antisemitism</i></div>`;
                 };
-                if(senators[0]["S.4127"]!==""){
-                    senator1html += `<div class="log bad"><i>Sponsored S.4127 for Department of Education to adopt the IHRA definition of antisemitism</i></div>`;
+                if(senator["S.4127"]!==""){
+                    senatorHTML += `<div class="log bad"><i>Sponsored S.4127 for Department of Education to adopt the IHRA definition of antisemitism</i></div>`;
                 };
-                if(senators[0]["S. 1916"]!==""){
-                    senator1html += `<div class="log good"><i>Sponsored S.1916 to create Office to Monitor and Combat Islamophobia</i></div>`;
+                if(senator["S. 1916"]!==""){
+                    senatorHTML += `<div class="log good"><i>Sponsored S.1916 to create Office to Monitor and Combat Islamophobia</i></div>`;
                 };
-                if(senators[0]["S. 2327"]!==""){
-                    senator1html += `<div class="log good"><i>Sponsored S.2327 to support Afganis who supported US mission in Afganistan</i></div>`;
+                if(senator["S. 2327"]!==""){
+                    senatorHTML += `<div class="log good"><i>Sponsored S.2327 to support Afganis who supported US mission in Afganistan</i></div>`;
                 };
-                if(senators[0]["S. Res. 534"]!==""){
-                    senator1html += `<div class="log good"><i>Sponsored S.534 to support January as Muslim American Heritage Month</i></div>`;
-                };
-                
-                if(senators[0]["Letter A"]!==""){
-                    senator1html += `<div class="log good"><i>Signed a letter for protection of palestinian life</i></div>`;
-                };
-                if(senators[0]["Letter B"]!==""){
-                    senator1html += `<div class="log good"><i>Signed a letter affirming US Diplomacy in humanitarian aid</i></div>`;
-                };
-                if(senators[0]["Letter C"]!==""){
-                    senator1html += `<div class="log good"><i>Signed a letter calling for oversight of U.S. origin weapons</i></div>`;
-                };
-                if(senators[0]["Letter D"]!==""){
-                    senator1html += `<div class="log good"><i>Signed a letter urging banks to stop discrimination against muslims</i></div>`;
+                if(senator["S. Res. 534"]!==""){
+                    senatorHTML += `<div class="log good"><i>Sponsored S.534 to support January as Muslim American Heritage Month</i></div>`;
                 };
                 
-                // <div class="log good"><i>note</i></div>
-                senator1html += `</div></div>`;
-          
-      
-                // <div class="log good"><i>note</i></div>
+                if(senator["Letter A"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter for protection of palestinian life</i></div>`;
+                };
+                if(senator["Letter B"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter affirming US Diplomacy in humanitarian aid</i></div>`;
+                };
+                if(senator["Letter C"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter calling for oversight of U.S. origin weapons</i></div>`;
+                };
+                if(senator["Letter D"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter urging banks to stop discrimination against muslims</i></div>`;
+                };
+                senatorHTML += `</div>`
+                
+               return senatorHTML;
+
+}
+
 
                 let HTML = `<div class="mapboxgl-popupy">
         <div class="title"><h1 class="mb-0">${statename}</h1>
             <div class="info">
-                <p class="mb-0">Muslim Pop: ${MuslimPop}  |  Muslim Percent: ${MuslimPercent}%</p></div>
+                <p class="mb-0">Muslim Pop: <span style="background-color: rgba(255, 255, 0, 0.5);">${MuslimPop}</span>  |  Muslim Percent: <span style="background-color: rgba(255, 255, 0, 0.5);">${MuslimPercent}%</span>  </p></div>
                
             
-            </div>`+senator1html+`</div></div>`
+            </div>`+senatorToHTML(senators[0])+senatorToHTML(senators[1])+`</div></div>`
             // console.log(selectedState[0].properties); 
             
 
@@ -412,12 +451,15 @@ let senator1html = `<hr class="mt-2 mb-2">
     document.getElementById('hide-state').style.display = 'none';
         // // (`Longitude: ${coordinates.lng}<br>Latitude: ${coordinates.lat}`)
         // .addTo(map);}
-    }});
+    
 
+
+});
 
         map.on('mouseleave', 'states-fill', () => {
             map.getCanvas().style.cursor = '';
-            // popup.remove();
+            document.getElementById('data-senator').innerHTML="";
+    document.getElementById('hide-state').style.display = 'block';
         });
 
 
