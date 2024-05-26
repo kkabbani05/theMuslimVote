@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
     
@@ -11,17 +13,133 @@
 
 
     <div class="mapboxgl-popup">
-        <h1>Texas</h1>
-        <p>Muslim Pop: 234,500</p>
-        <p>Muslim Percent: 3.6%</p>
-        <p>ddd</p></div>
+        <div class="title"><h1 class="mb-0">Texas</h1>
+            <div class="info">
+                <p class="mb-0">Muslim Pop: 234,500</p>
+                <p class="mb-0">Muslim Percent: 3.6%</p>
+            </div>
+            </div>
+        <hr class="mt-2 mb-2">
+        <div class="senator">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg/95px-Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg" alt="" class="profile">
+            <div class="senatorinfo" style="width: calc(100% - 50px);">
+                <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>Alex Padilla</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>
+                    <!-- <span class="badge rounded-pill text-bg-success">Ceasefire</span> -->
+                
+                <div class="log good"><i>note</i></div>    
+                <!-- <div class="aler">Hasn't called for a ceasefire</div> -->
+                <!-- <div class="aler green">Called for a ceasefire</div> -->
+                <!-- <p class="mb-1">Supports S.Res.504</p> -->
+            </div>
+        </div>
+        <hr class="mt-2 mb-2">
+        <div class="senator">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg/95px-Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg" alt="" class="profile">
+            <div class="senatorinfo" style="width: calc(100% - 50px);">
+                <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>Alex Padilla</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>
+                    <!-- <span class="badge rounded-pill text-bg-success">Ceasefire</span> -->
+                
+                <div class="log good"><i>note</i></div>    
+                <!-- <div class="aler">Hasn't called for a ceasefire</div> -->
+                <!-- <div class="aler green">Called for a ceasefire</div> -->
+                <!-- <p class="mb-1">Supports S.Res.504</p> -->
+            </div>
+        </div>
+        <!-- <hr class="mt-3 mb-2">
+        <div class="senator">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg/95px-Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg" alt="" class="profile">
+            <div class="senatorinfo" style="width:100%;">
+                <p class="mb-1">Alex Padilla</p>
+                <p class="mb-1">Supports S.Res.504</p>
+            </div>
+        </div> -->
+    </div>
     <style>
+        .log{
+            background-color: rgb(211, 211, 211);
+            color: black;
+            width: 100%;
+            padding: 0px 7px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            
+        }
+        .log.bad{
+            background-color: rgb(255, 187, 187);
+        }
+        .log.good{
+            background-color: rgba(174, 231, 190, 0.528);
+        }
+        .info{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .aler{
+            background-color:rgb(255, 207, 207);
+            color: red;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        .aler.green{
+            background-color:rgb(207, 255, 215);
+            color: rgb(0, 138, 16);
+        }
     .mapboxgl-popup{
         width: 300px;
         padding: 10px;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.244);
         border-radius: 5px;
+        font-family: nyt-cheltenham;
     }
+    /* h1{margin-block-end: 0;} */
+    p{font-family: nyt-franklin;}
+    body{padding: 10px;}
+    .title{
+        display: flex;
+        gap:10px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 7px 0px;
+    }
+    img.profile{
+        border-radius: 25px;
+        width: 40px !important;
+        height: 40px !important;
+        object-fit:cover;
+        border: 3px solid rgb(0, 0, 0);
+        
+    }
+    img.profile.D{
+        border: 3px solid rgb(39, 68, 157);
+    }
+    img.profile.R{
+        border: 3px solid rgb(191, 48, 48);
+    }
+    .senator{
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding: 0 10px;
+    }
+    
+
+    @font-face {
+  font-family: 'nyt-franklin';
+  src: url("fonts/franklin-italic-300.fb6b1cd2191b4a3104e3c6b15ce6f294.woff2") format('woff2'),
+       url("fonts/franklin-italic-300.48a5e4779dc70097e8f97e08332d1bad.woff") format('woff'),
+       url("fonts/franklin-italic-300.8fede15c30e43cbc1a20bfa59c045fec.ttf") format('truetype');
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face { 
+  font-family:'nyt-cheltenham';
+  src:url('fonts/cheltenham-italic-500.c149a85a3db3ccc3cd9e1e217a1e8e4c.woff2') format('woff2'),
+       url('fonts/cheltenham-italic-500.b0a9f31ef2ab8b3f06024843e8b463cf.woff') format('woff'),
+       url('fonts/cheltenham-italic-500.0037bc2b5f7715117712e6e1b21d2ae4.ttf') format('truetype');
+  font-style:italic;
+  font-weight:500;
+  font-display:swap;
+} 
     </style>
 
 

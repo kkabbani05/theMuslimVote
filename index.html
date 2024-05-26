@@ -11,6 +11,15 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
 <style>
+    @font-face { 
+  font-family:'nyt-franklin';
+  src:url('fonts\nyt-franklin\franklin-normal-500.0f4aea3d462cdb64748629efcbbf36bc.woff2') format('woff2'),
+       url('fonts\nyt-franklin\franklin-normal-500.cb85480c30b6ca5f53f673993211036f.woff') format('woff'),
+       url('fonts\nyt-franklin\franklin-normal-500.9061b25032eb73a747c2edf738888891.ttf') format('truetype');
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+} 
      @font-face {
   font-family: 'nyt-franklin';
   src: url("fonts/franklin-italic-300.fb6b1cd2191b4a3104e3c6b15ce6f294.woff2") format('woff2'),
@@ -35,20 +44,67 @@ body { margin: 0; padding: 0; }
 .sidebar{position: absolute;top: 40px; color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);padding: 30px;border-radius: 5px;}
 #sidebarH{font-family: nyt-cheltenham; font-weight: 500;line-height: 30px;font-size: 30px;}
 button{display: block;}
+img{display: block;}
+.mapboxgl-ctrl-geocoder{width: unset;margin-right: 5px;}
+.swing-state-toggle{min-width: 135px;}
 </style>
 </head>
 <body>
 <div id="map"></div>
 <div class="sidebar">
-    <h1 id="sidebarH" style="margin-bottom: 20px;">Muslims Voting Advisory</h1>
+    <h1 id="sidebarH" style="margin-bottom: 20px;">Congressional Scorecard</h1>
     <div id="geocoder" class="geocoder"></div>
     <!-- <div id="map"></div> -->
     <br>
     <!-- <p>s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p> -->
-    <button type="button" class="btn btn-light swing-state-toggle">Only Swing States?</button>
+    <button type="button" class="btn btn-light swing-state-toggle">Focus Swing States</button>
+    <img class="mt-5" style="opacity: 30%;" width="30%" src="/CAIRLogo-white.png" alt="">
+</div>
+<div id="legend">
+Population % Muslim
+<div id="bars">
+    <div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(255, 255, 255, 0.4);">
+    </div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(218, 218, 218, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(182, 182, 182, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(145, 145, 145, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(109, 109, 109, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(73, 73, 73, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(36, 36, 36, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(0, 0, 0, 0.4);">
+</div></div>
+<div class="bar-labels" style="position: relative;letter-spacing: 0;">
+    <div class="barl" style="left:calc(6.25% - 2px);">0</div>
+    <div class="barl" style="left:calc(37.5% - 10px);">1.2</div>
+    <div class="barl" style="left:calc(62.5%);">2.4</div>
+    <div class="barl" style="left:calc(94% - 5px);">3.6</div>
+
 </div>
 <style>
-   
+.barl{
+    position: absolute;
+    top: 2px;
+}
+
+    #bars{
+        letter-spacing: 0;
+        margin: 0;
+    }
+   #legend{
+    position: absolute;
+    border-radius: 6px;
+    bottom: 50px;
+    left: 50px;
+    width: 200px;
+    background-color: aquamarine;
+    font-family: arial,sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+    color: gray;
+    padding: 14px 15px 25px;
+    background-color: rgba(247, 247, 247, 0.8);
+   }
     .mapboxgl-popup-tip {
             display: none;
         }
@@ -172,15 +228,17 @@ var swingStates = ['Arizona','Georgia','Michigan','Nevada','North Carolina','Pen
 
 document.getElementsByClassName('swing-state-toggle')[0].addEventListener('click',(e)=>{
     
-    if (document.getElementsByClassName('swing-state-toggle')[0].innerText === "Only Swing States?") {
+    if (document.getElementsByClassName('swing-state-toggle')[0].innerText === "Focus Swing States") {
     document.getElementsByClassName('swing-state-toggle')[0].innerText = "All States";
     map.setFilter('states-fill', ['==', 'SwingState', true]);
 
 } else {
-    document.getElementsByClassName('swing-state-toggle')[0].innerText = "Only Swing States?";
+    document.getElementsByClassName('swing-state-toggle')[0].innerText = "Focus Swing States";
     map.setFilter('states-fill', null);
 }
 })
+
+document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0].setAttribute('placeholder',"Search a place")
 </script>
 </body>
 </html>
