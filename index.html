@@ -435,7 +435,7 @@ let senatorHTML = `<hr class="mt-2 mb-2">  <div class="senator">
                 ><p class="mb-0" style="line-height: 30px;"><b>${senator['First Name']} ${senator['Last Name']}</b> (${senator['District']}) </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
             </div></div><div>`;
                 if(senator["S.3168"]!==""){
-                    senatorHTML += `<div class="log good"><i>Sponsored S.3168 to provide Israel $14.3 billion towards genocide</i></div>`;
+                    senatorHTML += `<div class="log bad"><i>Sponsored S.3168 to provide Israel $14.3 billion towards genocide</i></div>`;
                 };
                 if(senator["S.Res.504"]=="Y"){
                     senatorHTML += `<div class="log good"><i>Voted YES to investigate Israel human rights practices (S.Res.504)</i></div>`;
