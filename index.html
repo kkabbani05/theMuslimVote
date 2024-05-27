@@ -10,12 +10,14 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+
 <style>
     @font-face { 
   font-family:'nyt-franklin';
-  src:url('fonts\nyt-franklin\franklin-normal-500.0f4aea3d462cdb64748629efcbbf36bc.woff2') format('woff2'),
-       url('fonts\nyt-franklin\franklin-normal-500.cb85480c30b6ca5f53f673993211036f.woff') format('woff'),
-       url('fonts\nyt-franklin\franklin-normal-500.9061b25032eb73a747c2edf738888891.ttf') format('truetype');
+  src:url('fonts/nyt-franklin/franklin-normal-500.0f4aea3d462cdb64748629efcbbf36bc.woff2') format('woff2'),
+       url('fonts/nyt-franklin/franklin-normal-500.cb85480c30b6ca5f53f673993211036f.woff') format('woff'),
+       url('fonts/nyt-franklin/franklin-normal-500.9061b25032eb73a747c2edf738888891.ttf') format('truetype');
   font-style:normal;
   font-weight:500;
   font-display:swap;
@@ -41,8 +43,10 @@
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 .popupp{font-family: nyt-franklin;}
-.sidebar{position: absolute;top: 40px; color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);padding: 30px;border-radius: 5px;}
-#sidebarH{font-family: nyt-cheltenham; font-weight: 500;line-height: 30px;font-size: 30px;}
+.sidebar{position: absolute;top: 40px;bottom: 40px;height: calc(100% - 80px); color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);
+    padding: 30px;
+    border-radius: 5px;display: flex;justify-content: space-between;flex-direction: column;}
+.sidebarH{font-family: nyt-cheltenham; font-weight: 500;line-height: 30px;font-size: 30px;}
 button{display: block;}
 img{display: block;}
 .mapboxgl-ctrl-geocoder{width: unset;margin-right: 5px;}
@@ -50,27 +54,56 @@ img{display: block;}
 </style>
 </head>
 <body>
+    
 <div id="map"></div>
 <div class="sidebar">
-    <h1 id="sidebarH" style="margin-bottom: 20px;">Congressional Scorecard</h1>
-    <div id="geocoder" class="geocoder"></div>
+    <div id="hide-state">
+
+        <h1 style="text-align: left;" class="sidebarH mb-3">Congressional Scorecard</h1>
+        
+        <div id="geocoder" class="geocoder"></div>
+        <div style="text-align: left;"><span class="badge rounded-pill bg-warning text-dark mt-3 mb-3">Site Under Construction</span></div>
+
+
+    
     <!-- <div id="map"></div> -->
     <br>
-    <!-- <p>s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p> -->
-    <button type="button" class="btn btn-light swing-state-toggle">Focus Swing States</button>
-    <img class="mt-5" style="opacity: 30%;" width="30%" src="/CAIRLogo-white.png" alt="">
+    <!-- <p class="sidebarH" style="background-color: yellow;color: black;">Data => Polical Strategy</p> -->
+    <p>Muslim and all people who stand for justice agree that the current political class does not represent us. Peacefully, politically, and persistently we will vote them out. <br><br> We aim to provide:
+    </p>
+    <div class="griddy">
+        <div class="griddy-number">1</div>
+        <div class="griddy-word">Political Strategy through Data</div>
+        <div class="griddy-number">2</div>
+        <div class="griddy-word">Political Education</div>
+        <div class="griddy-number">3</div>
+        <div class="griddy-word">Coordination</div>
+    </div>
+
+    </div>
+    
+    <div id="data-senator"></div>
+    <div id="sidebar-sticky">
+            <hr>
+        <div class="mt-2" id="sidebar-footer"><div> <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" checked>
+            <label class="btn btn-secondary" for="option4">Senate</label>
+            <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+            <label class="btn btn-secondary" for="option5">House</label></div><img style="opacity: 30%;object-fit: contain;" width="30%" src="/CAIRLogo-white.png" alt=""></div>
+        
+    </div>
+    
 </div>
 <div id="legend">
 Population % Muslim
 <div id="bars">
     <div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(255, 255, 255, 0.4);">
-    </div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(218, 218, 218, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(182, 182, 182, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(145, 145, 145, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(109, 109, 109, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(73, 73, 73, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(36, 36, 36, 0.4);">
-</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(0, 0, 0, 0.4);">
+    </div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(218, 236, 218, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(182, 218, 182, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(145, 199, 145, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(109, 181, 109, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(73, 163, 73, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(36, 145, 36, 0.4);">
+</div><div style="display:inline-block;height:5px;width:12.5%;background-color: rgba(0, 127, 0, 0.4);">
 </div></div>
 <div class="bar-labels" style="position: relative;letter-spacing: 0;">
     <div class="barl" style="left:calc(6.25% - 2px);">0</div>
@@ -83,23 +116,82 @@ Population % Muslim
 
 <!-- and the popup styles -->
 <style>
+    .griddy-number{
+        width: 30px;
+        height: 30px;
+        background-color: black;
+        border-radius: 15px;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold
+    }
+
+    .griddy-word{
+
+    }
+
+    .griddy{
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        grid-template-rows: repeat(3, 30px);
+        gap: 5px;
+
+    }
+    .item {
+  border: 1px solid black; /* Just to visualize the grid items */
+}
+    #sidebar-sticky{
+        position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0px 30px 30px 30px;
+    background-color: 4b4b4b;
+    }
+    label{font-family: '';}
+    #sidebar-footer{
+        display: flex;
+        justify-content: space-between;
+    }
     .log{
         background-color: rgb(211, 211, 211);
         color: black;
         width: 100%;
-        padding: 0px 7px;
+        padding: 6px 7px;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
-        
+        border-bottom: 2px solid #00000012;
+        line-height: normal;
     }
     .log.bad{
         background-color: rgb(255, 187, 187);
+        position: relative;
+        padding-left: 30px;
     }
     .log.good{
-        background-color: rgba(174, 231, 190, 0.528);
+        background-color: rgb(170, 218, 184);
+        position: relative;
+        padding-left: 30px;
+    }
+    .log.bad::before{
+        content: url('/X.svg'); /* Path to your SVG file */
+        position: absolute;
+        top: calc(50% - 7px);
+        left: 10px;
+        width: 15px; /* Adjust width as needed */
+        height: 15px; /* Adjust height as needed */
+    }
+    .log.good::before{
+        content: url('/CHECK.svg'); /* Path to your SVG file */
+        position: absolute;
+        top: calc(50% - 7px);
+        left: 10px;
+        width: 15px; /* Adjust width as needed */
+        height: 15px; /* Adjust height as needed */
+        
     }
     .info{
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
     }
     .aler{
         background-color:rgb(255, 207, 207);
@@ -112,7 +204,7 @@ Population % Muslim
         color: rgb(0, 138, 16);
     }
 .mapboxgl-popup-content{
-    width: 300px;
+    width: 400px;
     padding: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.244);
     border-radius: 5px;
@@ -120,34 +212,42 @@ Population % Muslim
 }
 /* h1{margin-block-end: 0;} */
 p{font-family: nyt-franklin;}
-body{padding: 10px;}
 .title{
     display: flex;
     gap:10px;
     justify-content: space-between;
     align-items: center;
     padding: 7px 0px;
+    font-family: 'nyt-cheltenham';
+    flex-direction: column;
 }
 img.profile{
-    border-radius: 25px;
-    width: 40px !important;
-    height: 40px !important;
+    border-radius: 30px;
+    width: 60px !important;
+    height: 60px !important;
     object-fit:cover;
     border: 3px solid rgb(0, 0, 0);
     
 }
 img.profile.D{
-    border: 3px solid rgb(39, 68, 157);
+    border: 3px solid rgb(47, 80, 177);
 }
 img.profile.R{
     border: 3px solid rgb(191, 48, 48);
 }
 .senator{
     display: flex;
-    flex-direction: row;
-    gap: 20px;
+    gap: 10px;
     padding: 0 10px;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgb(207, 207, 207);
+    color: black;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
+
 
 
 @font-face {
@@ -171,16 +271,6 @@ font-display:swap;
 </style>
 
 
-
-
-
-
-
-
-
-
-
-
 <style>
 .barl{
     position: absolute;
@@ -195,7 +285,7 @@ font-display:swap;
     position: absolute;
     border-radius: 6px;
     bottom: 50px;
-    left: 50px;
+    right: 50px;
     width: 200px;
     background-color: aquamarine;
     font-family: arial,sans-serif;
@@ -210,8 +300,17 @@ font-display:swap;
     .mapboxgl-popup-tip {
             display: none;
         }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
+        .log:last-child {
+    border-bottom-left-radius: 10px; /* Adjust the radius as needed */
+    border-bottom-right-radius: 10px; /* Adjust the radius as needed */
+}
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+.top-line-senator-info{
+    font-size: 18px;width:100%;
+    /* display: flex;
+    justify-content: space-between; */
+}
 
 </style>
 <script>
@@ -249,7 +348,8 @@ font-display:swap;
     // data: "states.geojson"
     // data: "states_with_senators.geojson"
     // data: "updated_geojson_file.geojson"
-    data: "states_with_swing_state.geojson"
+    data: "states_with_swing_state.geojson",
+    'promoteId':'GEO_ID'
     })
 
         map.addLayer({
@@ -262,19 +362,54 @@ font-display:swap;
             ['linear'],
             ['get', 'MuslimPopulationEstimatedPercMuslim'],
             0, 'rgba(255, 255, 255, 1)',  // White color for 0% Muslim population
-            3.6, 'rgba(0, 0, 0, 1)'        // Black color for 3.6% Muslim population
+            3.6, 'rgba(0, 160, 0, 1)'        // Black color for 3.6% Muslim population
         ],
-        'fill-opacity': 0.4
+        'fill-opacity':  [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.8,
+                    0.4
+                ]
+
+    }
+        },'bridge-case-simple');
+        map.addLayer({
+            'id': 'states-outline',
+            'type': 'line',
+            'source': 'states',
+            'paint': {
+        'line-color': 'rgba(0, 0, 0, 1)',
+        'line-width': 1,  // Adjust line width as needed
+        'line-opacity': 0.1  // Adjust line opacity as needed
     }
         });
 
-        const popup = new mapboxgl.Popup({
-            closeButton: false,
-            closeOnClick: false,
-            offset: 20
 
-        });
+        // const popup = new mapboxgl.Popup({
+        //     closeButton: false,
+        //     closeOnClick: false,
+        //     offset: 20
 
+        // });
+        map.on('click', 'states-fill', (e) => {
+                // Get the clicked feature
+                const feature = e.features[0];
+
+                if (feature) {
+                    // Get the bounding box of the feature
+                    const bbox = turf.bbox(feature);
+
+                    // Zoom the map to fit the feature
+                    map.fitBounds(bbox, {
+                        padding: {
+                            top: 100,
+                            bottom: 100,
+                            left: 500, // Double the padding on the left
+                            right: 100
+                        }
+                    });
+                }
+            });
 
         map.on('mouseenter', 'states-fill', (e) => {
             // Change the cursor style as a UI indicator.
@@ -283,7 +418,7 @@ font-display:swap;
             // Copy coordinates array.
             const coordinates = e.lngLat;
             // e.features[0].geometry.coordinates.slice();
-            console.log(coordinates);
+            // console.log(coordinates);
             // const description = e.features[0].properties.NAME;
             // console.log(description);
 
@@ -295,62 +430,139 @@ font-display:swap;
             // Populate the popup and set its coordinates
             // based on the feature found.
 
-popup.setLngLat(coordinates).setHTML(`<p class="popupp"> ${selectedState[0].properties.NAME}  <br> ${selectedState[0].properties.senators} </p>`).addTo(map);
+// popup.setLngLat(coordinates).setHTML(`<p class="popupp"> ${selectedState[0].properties.NAME}  <br> ${selectedState[0].properties.senators} </p>`).addTo(map);
         });
+        let hoveredPolygonId = null;
 
         map.on('mousemove', 'states-fill', (e) => {
              const coordinates = e.lngLat;
 
-   
+
              const selectedState = map.queryRenderedFeatures(e.point, {
                 layers: ['states-fill']
             });
 
-//set the vars
-let statename=selectedState[0].properties.NAME;
+            if (e.features.length > 0) {
+                if (hoveredPolygonId !== null) {
+                    map.setFeatureState(
+                        { source: 'states', id: hoveredPolygonId },
+                        { hover: false }
+                    );
+                }
+                hoveredPolygonId = e.features[0].id;
+                map.setFeatureState(
+                    { source: 'states', id: hoveredPolygonId },
+                    { hover: true }
+                );}
+
+
+            console.log(selectedState)
+            map.setFeatureState(
+                    { source: 'states', id: selectedState[0].id },
+                    { hover: true }
+                );
+
+
+
+
+            let statename=selectedState[0].properties.NAME;
 let MuslimPop=selectedState[0].properties.MuslimPopulationEstimated;
 let MuslimPercent=selectedState[0].properties.MuslimPopulationEstimatedPercMuslim;
 let senators = JSON.parse(selectedState[0].properties.senators);
-console.log(senators);
+// console.log(senators);
 // let senator1photo=senators[0].
-let senator1html = `<hr class="mt-2 mb-2">
-        <div class="senator">
-            <img src="https:${senators[0].Headshot}" class="profile">
-            <div class="senatorinfo" style="width: calc(100% - 50px);">
-                <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>${senators[0]['First Name']} ${senators[0]['Last Name']}</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
-                <div class="log good"><i>note</i></div>
-            </div>
-        </div>`
-let senator2html = `<hr class="mt-2 mb-2">
-        <div class="senator">
-            <img src="https:${senators[1].Headshot}" class="profile">
-            <div class="senatorinfo" style="width: calc(100% - 50px);">
-                <div class="top-line-senator-info mb-1" style="width:100%;display: flex;justify-content: space-between;"><p class="mb-0" style="line-height: 30px;"><b>${senators[1]['First Name']} ${senators[1]['Last Name']}</b> </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
-                <div class="log good"><i>note</i></div>
-            </div>
-        </div>`
+//set the vars
+function senatorToHTML(senator){
+let senatorHTML = `<hr class="mt-2 mb-2">  <div class="senator">
+            <img src="https:${senator.Headshot}" class="profile ${senator['Party ']}">
+            <div class="senatorinfo" style="width: calc(100% - 70px);">
+                <div class="top-line-senator-info mb-1"
+                ><p class="mb-0" style="line-height: 30px;"><b>${senator['First Name']} ${senator['Last Name']}</b> (${senator['District']}) </p>                <p class="mb-0"> <span class="badge rounded-pill text-bg-danger" >X Ceasefire</span></p>  </div>        
+            </div></div><div>`;
+                if(senator["S.3168"]!==""){
+                    senatorHTML += `<div class="log bad"><i>Sponsored S.3168 to provide Israel $14.3 billion towards genocide</i></div>`;
+                };
+                if(senator["S.Res.504"]=="Y"){
+                    senatorHTML += `<div class="log good"><i>Voted YES to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                }else if(senator["S.Res.504"]=="N"){
+                    senatorHTML += `<div class="log bad"><i>Voted NO to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                }else{
+                    senatorHTML += `<div class="log bad"><i>Voted N/A to investigate Israel human rights practices (S.Res.504)</i></div>`;
+                };
 
-let HTML = `<div class="mapboxgl-popupy">
+                if(senator["S.4091"]!==""){
+                    senatorHTML += `<div class="log bad"><i>Sponsored S.4091 to adopt the IHRA definition of antisemitism</i></div>`;
+                };
+                if(senator["S.4127"]!==""){
+                    senatorHTML += `<div class="log bad"><i>Sponsored S.4127 for Department of Education to adopt the IHRA definition of antisemitism</i></div>`;
+                };
+                if(senator["S. 1916"]!==""){
+                    senatorHTML += `<div class="log good"><i>Sponsored S.1916 to create Office to Monitor and Combat Islamophobia</i></div>`;
+                };
+                if(senator["S. 2327"]!==""){
+                    senatorHTML += `<div class="log good"><i>Sponsored S.2327 to support Afganis who supported US mission in Afganistan</i></div>`;
+                };
+                if(senator["S. Res. 534"]!==""){
+                    senatorHTML += `<div class="log good"><i>Sponsored S.534 to support January as Muslim American Heritage Month</i></div>`;
+                };
+                
+                if(senator["Letter A"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter for protection of palestinian life</i></div>`;
+                };
+                if(senator["Letter B"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter affirming US Diplomacy in humanitarian aid</i></div>`;
+                };
+                if(senator["Letter C"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter calling for oversight of U.S. origin weapons</i></div>`;
+                };
+                if(senator["Letter D"]!==""){
+                    senatorHTML += `<div class="log good"><i>Signed a letter urging banks to stop discrimination against muslims</i></div>`;
+                };
+                senatorHTML += `</div>`
+                
+               return senatorHTML;
+
+}
+
+
+                let HTML = `<div class="mapboxgl-popupy">
         <div class="title"><h1 class="mb-0">${statename}</h1>
             <div class="info">
-                <p class="mb-0">Muslim Pop: ${MuslimPop}</p>
-                <p class="mb-0">Muslim Percent: ${MuslimPercent}%</p>
-            </div>
-            </div>`+senator1html+senator2html+`</div></div>`
-            console.log(selectedState[0].properties); 
+                <p class="mb-0">Muslim Pop: <span style="background-color: rgba(255, 255, 0, 0.5);">${MuslimPop}</span>  |  Muslim Percent: <span style="background-color: rgba(255, 255, 0, 0.5);">${MuslimPercent}%</span>  </p></div>
+               
+            
+            </div>`+senatorToHTML(senators[0])+senatorToHTML(senators[1])+`</div></div>`
+            // console.log(selectedState[0].properties); 
+            
+
+
+
+           
         //    console.log(JSON.parse(selectedState[0].properties.senators));
     // Set the popup's coordinates based on the mouse event's coordinates
-    popup
-        .setLngLat(coordinates)
-        .setHTML(HTML)
-        // // (`Longitude: ${coordinates.lng}<br>Latitude: ${coordinates.lat}`)
-        // .addTo(map);
-});
+    // popup
+        // .setLngLat(coordinates)
+        // .setHTML(HTML);
 
+    document.getElementById('data-senator').innerHTML=HTML;
+    document.getElementById('hide-state').style.display = 'none';
+        // // (`Longitude: ${coordinates.lng}<br>Latitude: ${coordinates.lat}`)
+        // .addTo(map);}
+    
+
+
+});
 
         map.on('mouseleave', 'states-fill', () => {
             map.getCanvas().style.cursor = '';
-            popup.remove();
+            document.getElementById('data-senator').innerHTML="";
+    document.getElementById('hide-state').style.display = 'block';
+    map.setFeatureState(
+                    { source: 'states', id: hoveredPolygonId },
+                    { hover: false }
+                );
+
+
         });
 
 
@@ -361,17 +573,17 @@ let HTML = `<div class="mapboxgl-popupy">
     });
 var swingStates = ['Arizona','Georgia','Michigan','Nevada','North Carolina','Pennsilvania','Wisconsin'];
 
-document.getElementsByClassName('swing-state-toggle')[0].addEventListener('click',(e)=>{
+// document.getElementsByClassName('swing-state-toggle')[0].addEventListener('click',(e)=>{
     
-    if (document.getElementsByClassName('swing-state-toggle')[0].innerText === "Focus Swing States") {
-    document.getElementsByClassName('swing-state-toggle')[0].innerText = "All States";
-    map.setFilter('states-fill', ['==', 'SwingState', true]);
+//     if (document.getElementsByClassName('swing-state-toggle')[0].innerText === "Focus Swing States") {
+//     document.getElementsByClassName('swing-state-toggle')[0].innerText = "All States";
+//     map.setFilter('states-fill', ['==', 'SwingState', true]);
 
-} else {
-    document.getElementsByClassName('swing-state-toggle')[0].innerText = "Focus Swing States";
-    map.setFilter('states-fill', null);
-}
-})
+// } else {
+//     document.getElementsByClassName('swing-state-toggle')[0].innerText = "Focus Swing States";
+//     map.setFilter('states-fill', null);
+// }
+// })
 
 document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0].setAttribute('placeholder',"Search a place")
 </script>
