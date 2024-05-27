@@ -45,8 +45,8 @@ body { margin: 0; padding: 0; }
 .popupp{font-family: nyt-franklin;}
 .sidebar{position: absolute;top: 40px;bottom: 40px;height: calc(100% - 80px); color:white;  left: 40px;width: 380px;background-color: rgba(36, 36, 36, 0.802);
     padding: 30px;
-    border-radius: 5px;display: flex;justify-content: space-between;flex-direction: column;overflow: auto;}
-#sidebarH{font-family: nyt-cheltenham; font-weight: 500;line-height: 30px;font-size: 30px;}
+    border-radius: 5px;display: flex;justify-content: space-between;flex-direction: column;}
+.sidebarH{font-family: nyt-cheltenham; font-weight: 500;line-height: 30px;font-size: 30px;}
 button{display: block;}
 img{display: block;}
 .mapboxgl-ctrl-geocoder{width: unset;margin-right: 5px;}
@@ -59,17 +59,31 @@ img{display: block;}
 <div class="sidebar">
     <div id="hide-state">
 
-        <h1 id="sidebarH" style="margin-bottom: 20px;">Congressional Scorecard</h1>
-    <div id="geocoder" class="geocoder"></div>
+        <h1 style="text-align: left;" class="sidebarH mb-3">Congressional Scorecard</h1>
+        
+        <div id="geocoder" class="geocoder"></div>
+        <div style="text-align: left;"><span class="badge rounded-pill bg-warning text-dark mt-3 mb-3">Site Under Construction</span></div>
+
+
+    
     <!-- <div id="map"></div> -->
     <br>
-    <p>This project blah blah blah </p>
-    <!-- <button type="button" class="btn btn-light swing-state-toggle">Focus Swing States</button> -->
+    <!-- <p class="sidebarH" style="background-color: yellow;color: black;">Data => Polical Strategy</p> -->
+    <p>Muslim and all people who stand for justice agree that the current political class does not represent us. Peacefully, politically, and persistently we will vote them out. <br><br> We aim to provide:
+    </p>
+    <div class="griddy">
+        <div class="griddy-number">1</div>
+        <div class="griddy-word">Political Strategy through Data</div>
+        <div class="griddy-number">2</div>
+        <div class="griddy-word">Political Education</div>
+        <div class="griddy-number">3</div>
+        <div class="griddy-word">Coordination</div>
+    </div>
 
     </div>
     
     <div id="data-senator"></div>
-    <div>
+    <div id="sidebar-sticky">
             <hr>
         <div class="mt-2" id="sidebar-footer"><div> <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" checked>
             <label class="btn btn-secondary" for="option4">Senate</label>
@@ -102,6 +116,37 @@ Population % Muslim
 
 <!-- and the popup styles -->
 <style>
+    .griddy-number{
+        width: 30px;
+        height: 30px;
+        background-color: black;
+        border-radius: 15px;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold
+    }
+
+    .griddy-word{
+
+    }
+
+    .griddy{
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        grid-template-rows: repeat(3, 30px);
+        gap: 5px;
+
+    }
+    .item {
+  border: 1px solid black; /* Just to visualize the grid items */
+}
+    #sidebar-sticky{
+        position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0px 30px 30px 30px;
+    background-color: 4b4b4b;
+    }
     label{font-family: '';}
     #sidebar-footer{
         display: flex;
