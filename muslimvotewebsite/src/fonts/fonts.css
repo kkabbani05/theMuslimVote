@@ -1,0 +1,8 @@
+/* src/fonts/fonts.css */
+@font-face {
+    font-family: 'Norwester';
+    src: url('./norwester.otf') format('opentype'); 
+    font-weight: normal;
+    font-style: normal;
+  }
+  

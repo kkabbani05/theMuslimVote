@@ -2,6 +2,7 @@ import './App.css';
 import React from "react";
 import Home from "./pages/Home/Home.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './fonts/fonts.css';
 
 function App() {
   return (

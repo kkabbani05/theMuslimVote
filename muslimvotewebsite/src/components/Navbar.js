@@ -14,30 +14,30 @@ export default function Navbar() {
 
   return (
     <div
-      className={`flex justify-between items-center h-32 max-w-[2000px] mx-auto px-10`}
+      className={`flex font-norwester justify-between items-center h-32 max-w-[2000px] mx-auto px-10`}
     >
       <Link to="/" className={`w-full`}>
-        <img src={muslimvotetext} alt="Muslim Vote Text"  className="h-auto w-[15vw] max-w-full  "/>
+        <img src={muslimvotetext} alt="Muslim Vote Text"  className="h-auto w-[22rem] max-w-full  "/>
       </Link>
 
-      <ul className="hidden md:flex md:font-bold md:flex-nowrap md:min-w-[600px] md:justify-end md:gap-x-8">
+      <ul className="hidden md:flex md:font-bold md:flex-nowrap md:min-w-[1000px] md:justify-end md:gap-x-12 pr-10">
         <li className="p-2 relative">
             <Link to="/about/vision">
-                <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[17.3px] text-[#16076d] font-bold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
+                <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[1.4rem] text-[#16076d] font-semibold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
                     WHAT WE DO
                 </button>  
             </Link> 
         </li>
         <li className="p-2">
             <Link to="/about/vision">
-                <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[17.3px] text-[#16076d] font-bold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
+                <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[1.4rem] text-[#16076d] font-semibold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
                     INTERACTIVE MAP
                 </button>  
             </Link> 
         </li>
         <li className="p-2">
             <Link to="/about/vision">
-                <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[17.3px] text-[#16076d] font-bold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
+                <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[1.4rem] text-[#16076d] font-semibold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
                     ABOUT US
                 </button>  
             </Link> 

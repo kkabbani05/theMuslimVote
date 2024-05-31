@@ -6,6 +6,10 @@ module.exports = {
       colors: {
         customWhite: '#FEFBF7',
       },
+      fontFamily: {
+        'noto-serif': ['Noto Serif', 'serif'],
+        'norwester': ['Norwester', 'sans-serif']
+      },
     },
   },
   plugins: [],
