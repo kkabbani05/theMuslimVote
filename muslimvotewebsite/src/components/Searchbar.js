@@ -14,14 +14,14 @@ function SearchBar() {
     };
 
     return (
-        <div className="flex justify-center items-center py-2 px-4"> {/* Background and padding */}
-            <form onSubmit={handleSubmit} className="w-full max-w-[976px]">
+        <div className="flex justify-center items-center py-2 px-4 "> {/* Background and padding */}
+            <form onSubmit={handleSubmit} className="w-full max-w-[55rem]">
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={handleInputChange}
                     placeholder="Search"
-                    className="w-full px-3 py-2 border-2 border-[#9e2a2b] focus:outline-none focus:border-[#540b0e] rounded-lg text-lg"
+                    className="w-full px-3 py-2 border-2 border-[#621b2a] focus:outline-none focus:border-[#540b0e] rounded-lg text-2xl"
                 />
             </form>
         </div>
