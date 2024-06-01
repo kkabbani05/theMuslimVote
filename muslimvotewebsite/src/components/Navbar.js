@@ -22,21 +22,21 @@ export default function Navbar() {
 
       <ul className="hidden md:flex md:font-bold md:flex-nowrap md:min-w-[1000px] md:justify-end md:gap-x-12 pr-10">
         <li className="p-2 relative">
-            <Link to="/about/vision">
+            <Link to="/whatwedo">
                 <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[1.4rem] text-[#16076d] font-semibold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
                     WHAT WE DO
                 </button>  
             </Link> 
         </li>
         <li className="p-2">
-            <Link to="/about/vision">
+            <Link to="/interactivemap">
                 <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[1.4rem] text-[#16076d] font-semibold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
                     INTERACTIVE MAP
                 </button>  
             </Link> 
         </li>
         <li className="p-2">
-            <Link to="/about/vision">
+            <Link to="/about">
                 <button className="w-auto px-3 h-16 bg-[#e8e8e8] text-[1.4rem] text-[#16076d] font-semibold border-8 border-[#16076d] hover:bg-[#cfcccc] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">   
                     ABOUT US
                 </button>  
@@ -61,10 +61,13 @@ export default function Navbar() {
             <Link to="/">HOME</Link>
           </li>
           <li>
-            <Link to="/donate">DONATE</Link>
+            <Link to="/whatwedo">WHAT WE DO</Link>
           </li>
           <li>
-            <Link to="/volunteer">VOLUNTEER</Link>
+            <Link to="/interactivemap">INTERACTIVE MAP</Link>
+          </li>
+          <li>
+            <Link to="/about">ABOUT US</Link>
           </li>
         </ul>
 

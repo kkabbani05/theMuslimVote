@@ -1,17 +1,17 @@
 import React from 'react';
-import bannerImage from "../../Images/BannerImage.png";
-import bannerImage2 from "../../Images/BannerImage2.png";
-import muslimvotetext from "../../Images/muslimvotetext.png";
-import usstate from "../../Images/usstate.png";
-import muslimvotelogo from "../../Images/muslimvote_logo.png"
-import Navbar from '../../components/Navbar';
+import bannerImage from "../Images/BannerImage.png";
+import bannerImage2 from "../Images/BannerImage2.png";
+import muslimvotetext from "../Images/muslimvotetext.png";
+import usstate from "../Images/usstate.png";
+import muslimvotelogo from "../Images/muslimvote_logo.png"
+import Navbar from '../components/Navbar';
 import { Link } from "react-router-dom";
-import Searchbar from '../../components/Searchbar';
-import TimeCounter from '../../components/TimerCounter';
-import Footer from '../../components/Footer';
+import Searchbar from '../components/Searchbar';
+import TimeCounter from '../components/TimerCounter';
+import Footer from '../components/Footer';
 
 export default function Home() {
-  return (
+  return (  
     <div className="bg-customWhite ">
         <div className="h-screen bg-cover bg-center" style={{ backgroundImage: `url(${bannerImage})` }}>
             <Navbar />
